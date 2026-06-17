@@ -1,0 +1,6 @@
+time=2026-06-17T00:41:31.797+05:00 level=ERROR msg="Error updating transaction" err="pq: COALESCE types text and uuid cannot be matched at position 6:43 (42804)"
+time=2026-06-17T00:43:37.277+05:00 level=ERROR msg="Error updating transaction" err="pq: CASE types date and text cannot be matched at position 8:52 (42804)"
+time=2026-06-17T00:43:39.049+05:00 level=ERROR msg="Error updating transaction" err="pq: CASE types date and text cannot be matched at position 8:52 (42804)"
+time=2026-06-17T00:50:58.328+05:00 level=ERROR msg="Error delete category" err="pq: invalid input syntax for type bigint: \"2026-06-17 00:50:58.3272018+05:00\" (22P02)"
+time=2026-06-17T01:00:39.459+05:00 level=ERROR msg="Error fetching summary" err="pq: operator does not exist: timestamp without time zone = integer at position 6:22 (42883)"
+time=2026-06-17T01:05:47.714+05:00 level=ERROR msg="Error fetching summary" err="pq: operator does not exist: boolean = integer at position 6:30 (42883)"
