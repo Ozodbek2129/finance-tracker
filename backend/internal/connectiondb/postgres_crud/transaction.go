@@ -368,7 +368,7 @@ func (f *FinanceTracker) DeleteTransaction(ctx context.Context, req *models.Dele
 		  AND deleted_at IS NULL
 	`
 
-	res, err := f.DB.ExecContext(ctx, query, time.Now().Unix(), req.ID)
+	res, err := f.DB.ExecContext(ctx, query, time.Now(), req.ID)
 	if err != nil {
 		f.Log.Error("Error deleting transaction", "err", err)
 		return nil, err
