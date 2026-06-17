@@ -315,9 +315,14 @@ func (f *FinanceTracker) GetAllTransactions(ctx context.Context, req *models.Get
 func (f *FinanceTracker) UpdateTransaction(ctx context.Context, req *models.UpdateTransactionReq) (*models.UpdateTransactionRes, error) {
 	now := time.Now()
 
-	date, err := time.Parse("2006-01-02", req.Date)
-	if err != nil {
-		return nil, errors.New("date format noto'g'ri, 'YYYY-MM-DD' formatida yuboring")
+	// date ixtiyoriy — bo'sh bo'lsa nil yuboramiz
+	var dateArg interface{}
+	if req.Date != "" {
+		date, err := time.Parse("2006-01-02", req.Date)
+		if err != nil {
+			return nil, errors.New("date format noto'g'ri, 'YYYY-MM-DD' formatida yuboring")
+		}
+		dateArg = date
 	}
 
 	query := `
@@ -327,7 +332,7 @@ func (f *FinanceTracker) UpdateTransaction(ctx context.Context, req *models.Upda
 			description = COALESCE(NULLIF($2, ''), description),
 			category_id = COALESCE(NULLIF($3, '')::uuid, category_id),
 			type        = COALESCE(NULLIF($4, ''), type),
-			date        = COALESCE($5::date, date),
+			date        = CASE WHEN $5::date IS NOT NULL THEN $5::date ELSE date END,
 			updated_at  = $6
 		WHERE id = $7
 		  AND deleted_at IS NULL
@@ -335,8 +340,8 @@ func (f *FinanceTracker) UpdateTransaction(ctx context.Context, req *models.Upda
 	`
 
 	var res models.UpdateTransactionRes
-	err = f.DB.QueryRowContext(ctx, query,
-		req.Amount, req.Description, req.CategoryID, req.Type, date, now, req.ID,
+	err := f.DB.QueryRowContext(ctx, query,
+		req.Amount, req.Description, req.CategoryID, req.Type, dateArg, now, req.ID,
 	).Scan(
 		&res.ID, &res.Amount, &res.Description,
 		&res.CategoryID, &res.Type, &res.Date, &res.UpdatedAt,
