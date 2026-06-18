@@ -27,7 +27,7 @@ function EmojiPicker({ value, onChange }) {
         <span className="emoji-arrow">{open ? "▲" : "▼"}</span>
       </button>
       {open && (
-        <div className="emoji-grid">
+        <div className="emoji-grid show">
           {EMOJIS.map((e) => (
             <button
               key={e}
@@ -101,6 +101,34 @@ export default function CategoryManager() {
 
   return (
     <div className="cm-wrap">
+      {/* ── KATEGORIYA ELEMENTLARI UCHUN SILJISH ANIMATSIYALARI ── */}
+      <style>{`
+        @keyframes catFadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(10px) scale(0.98);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        .cm-item {
+          animation: catFadeIn 0.35s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+          opacity: 0;
+          transition: border-left-color 0.2s ease, transform 0.2s ease;
+        }
+        .cm-item:hover {
+          transform: translateX(4px);
+        }
+        .emoji-grid.show {
+          animation: catFadeIn 0.2s ease-out forwards;
+        }
+        .cm-form, .btn-save, .btn-cancel {
+          transition: all 0.2s ease;
+        }
+      `}</style>
+
       <h2>Kategoriyalar</h2>
 
       <div className="cm-form">
@@ -129,8 +157,16 @@ export default function CategoryManager() {
         {items.length === 0 ? (
           <div className="cm-empty">Kategoriya yo'q. Birinchi bo'lib qo'shing!</div>
         ) : (
-          items.map((c) => (
-            <div key={c.id} className="cm-item" style={{ borderLeftColor: c.color }}>
+          items.map((c, index) => (
+            <div 
+              key={c.id} 
+              className="cm-item" 
+              style={{ 
+                borderLeftColor: c.color,
+                // Har bir kator ketma-ketlikda navbati bilan chiroyli ko'rinishi uchun
+                animationDelay: `${index * 0.04}s` 
+              }}
+            >
               <span className="cm-icon">{c.icon}</span>
               <span className="cm-name">{c.name}</span>
               <div className="cm-item-btns">
