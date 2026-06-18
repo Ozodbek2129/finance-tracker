@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=Syne:wght@700;800&display=swap');
+
+:root {
+  --bg-dark: #0B0F12;
+  --bg-card: #11171A;
+  --fg-light: #F5F7FA;
+  --fg-muted: #8A99A4;
+  --fg-dim: #62727C;
+  --gray-muted: #1A2328;
+  --gray-border: #243037;
+  --accent-flow: #00E5FF;
+  --accent-red: #FF3366;
+  --accent-amber: #FFB020;
+
+  --font-display: 'Syne', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-dark);
+  color: var(--fg-light);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+button {
+  font-family: inherit;
+}
+
+input:focus-visible,
+select:focus-visible,
+button:focus-visible {
+  outline: 1px solid var(--accent-flow);
+  outline-offset: 2px;
+}
+
+/* ─── Signature element: pulsatsiya qiluvchi chiziq ───────────────────── */
+.pulse-line-container {
+  position: relative;
+  height: 4px;
+  background: var(--gray-muted);
+  overflow: hidden;
+  border-radius: 2px;
+  margin: 2rem 0;
+}
+
+.pulse-line {
+  position: absolute;
+  height: 100%;
+  width: 30%;
+  background: linear-gradient(90deg, transparent, var(--accent-flow), transparent);
+  animation: flow 3s linear infinite;
+}
+
+@keyframes flow {
+  0% { left: -30%; }
+  100% { left: 110%; }
+}
+
+/* ─── Ledger qator hover holati ───────────────────────────────────────── */
+.ledger-row {
+  transition: background 0.15s ease;
+}
+.ledger-row:hover {
+  background: #141B1F;
+}
+.ledger-row .row-actions {
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.ledger-row:hover .row-actions {
+  opacity: 1;
+}
+
+/* ─── Insight / signal kartochkalari ──────────────────────────────────── */
+.signal-card {
+  border-left: 2px solid var(--gray-border);
+  padding: 0.9rem 1rem;
+  background: var(--bg-card);
+}
+.signal-card[data-tone="good"] { border-left-color: var(--accent-flow); }
+.signal-card[data-tone="warning"] { border-left-color: var(--accent-red); }
+.signal-card[data-tone="info"] { border-left-color: var(--accent-amber); }
+
+/* ─── Custom scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--gray-muted);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-flow);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
