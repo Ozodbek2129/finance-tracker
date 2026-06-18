@@ -1,9 +1,14 @@
 package handler
 
-import "github.com/gin-gonic/gin"
+import (
+	corss "finance-tracker/middleware"
+
+	"github.com/gin-gonic/gin"
+)
 
 func (h *Handler) SetupRouter() *gin.Engine {
 	r := gin.Default()
+	r.Use(corss.CORSMiddleware())
 
 	api := r.Group("/api/v1")
 
